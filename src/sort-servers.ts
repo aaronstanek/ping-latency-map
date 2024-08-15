@@ -1,10 +1,24 @@
 import type { ServerListElement } from './asset-loaders';
 
-const sortServersCompare = (a: ServerListElement, b: ServerListElement) => {
-	if (a.country !== b.country) return a.country < b.country ? -1 : 1;
-	if (a.city !== b.city) return a.city < b.city ? -1 : 1;
-	return 0;
+type ServerPointer = {
+	id: number;
+	server: ServerListElement;
 };
 
-export const sortServers = (serverList: ServerListElement[]) =>
-	serverList.slice(0).sort(sortServersCompare);
+const sortServersCompare = (a: ServerPointer, b: ServerPointer) => {
+	if (a.server.country !== b.server.country) return a.server.country < b.server.country ? -1 : 1;
+	if (a.server.city !== b.server.city) return a.server.city < b.server.city ? -1 : 1;
+	return a.id - b.id;
+};
+
+export const sortServers = (serverList: ServerListElement[]) => {
+	let serverPointers = [];
+	for (let id = 0; id < serverList.length; id++) {
+		serverPointers.push({
+			id,
+			server: serverList[id]
+		});
+	}
+	serverPointers.sort(sortServersCompare);
+	return serverPointers;
+};

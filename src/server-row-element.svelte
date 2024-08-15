@@ -11,12 +11,14 @@
 			aria-label={`Remove Source City: ${server?.city}, ${server?.country}`}
 			class="highlightonhover"
 			on:click={removeThisServer}
-			><img
-				src="https://aaronstanek.com/static-web-content/x.svg"
-				width="20px"
-				height="20px"
-				alt="Remove source city"
-			/></button
+			><div style="padding: 4px">
+				<img
+					src="https://aaronstanek.com/static-web-content/x.svg"
+					width="12px"
+					height="12px"
+					alt="Remove source city"
+				/>
+			</div></button
 		>
 		<div class="w-2"></div>
 		<div class="flex-10" style="padding:3px">{`${server?.city}, ${server?.country}`}</div>

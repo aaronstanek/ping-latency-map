@@ -9,7 +9,10 @@
 	import { sortServers } from './sort-servers';
 	import Head from '$lib/head.svelte';
 	import BodyText from './body-text.svelte';
-	import Footer from './footer.svelte';
+	import LinkButton from '$lib/buttons/link-button.svelte';
+	import Anchor from '$lib/links/anchor.svelte';
+	import { scrollToId } from '$lib/links/scroll-to-id';
+	import Link from '$lib/links/link.svelte';
 
 	let baseImage: HTMLImageElement | 'error' | undefined;
 	let pingData: PingData | 'error' | undefined;
@@ -136,30 +139,41 @@
 <Head
 	canonicalUrl="https://aaronstanek.com/projects/ping-latency-map"
 	title="Ping Latency Map"
-	description="Discover how quickly digital messages travel around the world with WonderNetwork's interactive ping map. Choose cities, set time thresholds, and see which cities respond the fastest. Explore now!"
-	image="https://upload.wikimedia.org/wikipedia/commons/1/14/Mercator_Projection.svg"
+	description="Visualize ping times around the world. Choose cities, set ping latency thresholds, and see which cities respond the fastest."
+	image="https://aaronstanek.com/static-web-content/ping-latency-map/base-map-simplified.svg"
 />
 
-<BodyText />
+<h1 class="text-center">Ping Latency Map</h1>
 
-<canvas bind:this={canvas} width="800px" height="525px"> </canvas>
+<div class="flex justify-center mt-3"><Link href="#contents">Jump to Table of Contents</Link></div>
+
+<Anchor name="how-to"
+	><div class="mt-6 mb-6">
+		The interactive map below shows ping latency between major cities worldwide. You can customize
+		the map by selecting source cities and setting a ping latency threshold. If a city has a ping
+		latency with any one of the source cities that is less than the ping latency threshold, then
+		that city is marked in blue. Otherwise, if the ping latency between a city and all the source
+		cities is greater than the threshold, the city is marked in red.
+	</div></Anchor
+>
+
+<Anchor name="map"><canvas bind:this={canvas} width="800px" height="525px"> </canvas></Anchor>
 
 {#if assetLoadState === 'done'}
 	<br />
-	<div class="flex flex-row items-center">
-		<div>Ping time threshold (in milliseconds)</div>
-		<div class="w-2"></div>
+	<div class="flex flex-col items-center gap-2">
+		<div>Ping latency threshold (in milliseconds)</div>
 		<input
-			aria-label="Set the time threshold"
+			style="width:75px"
+			aria-label="Set the ping latency threshold"
 			type="number"
 			bind:value={thresholdMs}
 			on:input={draw}
 		/>
 	</div>
 	<br />
-	<div class="flex flex-row items-center">
+	<div class="flex flex-col items-center gap-2">
 		<div>Add a source city by name</div>
-		<div class="w-2"></div>
 		<ServerSelectionBox
 			serverFilter={sourceServersFilter}
 			selectCallback={addSourceServer}
@@ -181,31 +195,37 @@
 <br />
 
 {#if !areAvailableCitiesShown}
-	<button
-		class="falselink"
-		on:click={() => {
+	<LinkButton
+		callback={() => {
 			areAvailableCitiesShown = true;
-		}}>See available cities</button
+		}}>See available cities</LinkButton
 	>
 {:else}
 	<div class="flex flex-row">
 		<div>Available cities</div>
 		<div class="w-2"></div>
-		<button
-			class="falselink"
-			on:click={() => {
+		<LinkButton
+			callback={() => {
 				areAvailableCitiesShown = false;
-			}}>Hide</button
+			}}>Hide</LinkButton
 		>
 	</div>
 	<div class="serverlist">
 		{#each serverList === undefined || serverList === 'error' ? [] : sortServers(serverList) as server}
-			<div style="padding:3px">{`${server?.city}, ${server?.country}`}</div>
+			<div class="flex gap-3" style="padding: 3px">
+				<div>{`${server.server.city}, ${server.server.country}`}</div>
+				<LinkButton
+					callback={() => {
+						addSourceServer(server.id);
+						scrollToId('map');
+					}}>add</LinkButton
+				>
+			</div>
 		{/each}
 	</div>
 {/if}
 
-<Footer />
+<BodyText />
 
 <style>
 	canvas {

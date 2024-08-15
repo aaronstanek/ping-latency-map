@@ -74,6 +74,7 @@
 <ClickOutside callback={handleClickOutside}>
 	<div style="position:relative">
 		<input
+			style="width: 290px"
 			aria-label="Search for a city to add as a source city."
 			bind:this={inputBox}
 			type="text"

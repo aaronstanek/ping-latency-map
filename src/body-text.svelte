@@ -1,28 +1,107 @@
-<h1 class="text-center text-3xl">Ping Latency Map</h1>
+<script>
+	import Anchor from '$lib/links/anchor.svelte';
+	import Link from '$lib/links/link.svelte';
 
-<p>
-	<br />
+	import { CitationLinker } from '$lib/citations/citation-linker';
+	import Cite from '$lib/citations/cite.svelte';
 
-	Ever wondered how long it takes for a digital message to zip around the globe? This map shows you
-	exactly that!
+	const citationLinker = new CitationLinker()
+		.add('wondernetwork-pings', 'https://wondernetwork.com/pings')
+		.add(
+			'1-to-3-seconds',
+			'https://www.thinkwithgoogle.com/marketing-strategies/app-and-mobile/page-load-time-statistics/'
+		)
+		.add(
+			'abandon-at-3-seconds',
+			'https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/'
+		)
+		.add(
+			'ultimate-infographic',
+			'https://blog.google/products/adsense/the-ultimate-mobile-page-speed-infographic/'
+		)
+		.add(
+			'is-my-connection-good',
+			'https://www.pingplotter.com/wisdom/article/is-my-connection-good/'
+		)
+		.add('nielsen', 'https://www.nngroup.com/articles/response-times-3-important-limits/');
+</script>
 
-	<br /><br />
+<Anchor name="contents"><h3 class="mt-6">Table of Contents</h3></Anchor>
 
-	<a href="https://wondernetwork.com/pings">WonderNetwork</a> timed how long it takes for computers
-	in different cities to send each other a quick hello (called a "ping" in computer circles). The
-	blue dots on the map represent cities with the fastest replies to a sample ping, while the red
-	dots show cities with slower replies.
+<div class="mt-1">
+	1. <Link href="#how-to">How to Use This Tool</Link><br />
+	2. <Link href="#map">The Map</Link><br />
+	3. <Link href="#understanding">Understanding Ping Latency</Link><br />
+	4. <Link href="#impact">The Impact of Latency on User Experience</Link><br />
+	5. <Link href="#disclaimer">Disclaimer</Link><br />
+	6. <Link href="#credits">Credits</Link><br />
+	7. <Link href="#source-code">Source Code</Link>
+</div>
 
-	<br /><br />
+<Anchor name="understanding"><h3 class="mt-6">Understanding Ping Latency</h3></Anchor>
 
-	You can choose which cities to start from and set a time threshold using the controls below. If
-	the ping time between any of your source cities and a particular city on the map is less than the
-	time threshold, that city is marked with a blue dot. If the ping time is greater than the time
-	threshold, that city is marked with a red dot.
+<div class="mt-6">
+	Ping latency measures the time it takes to send a piece of information to a computer on the
+	internet and to receive a response back from that computer.
+</div>
 
-	<br /><br />
+<div class="mt-6">
+	Ping latency is roughly correlated with the physical distance between the sender and receiver of
+	the ping. As a sense of scale, ping latency is usually measured in milliseconds (ms). A ping
+	between two computers in the same metro area takes about 1ms. A ping between two computers in the
+	same part of a continent typically takes about 20ms; for example, between New York and Chicago, or
+	between London and Berlin. A ping between computers on opposite sides of the planet takes about
+	300ms.<Cite linker={citationLinker} name="wondernetwork-pings" />
+</div>
 
-	Let's see how far your digital hellos can travel!
+<Anchor name="impact"><h3 class="mt-6 mb-6">The Impact of Latency on User Experience</h3></Anchor>
 
-	<br /><br />
-</p>
+<div class="mt-6">
+	High ping latency translates to slow-loading websites and sluggish responses. This directly
+	affects user satisfaction. Even slight increases in ping latency can significantly hurt website
+	performance. The probability of a bounce increases 32% as page load time goes from 1 second to 3
+	seconds.<Cite linker={citationLinker} name="1-to-3-seconds" /> 53% of visits are abandoned if a mobile
+	site takes longer than 3 seconds to load.<Cite
+		linker={citationLinker}
+		name="abandon-at-3-seconds,ultimate-infographic"
+	/>
+</div>
+
+<div class="mt-6">
+	So, how much ping latency is acceptable for a modern website? There is no solid number, but
+	generally aiming for a 50ms ping latency between a user's city and a webserver's city is a good
+	benchmark. Taking this 50ms and adding another 50ms for the user's device to route through the
+	local ISP and for the webserver to process the request gives a 100ms delay overall between the
+	time a user clicks a button, and the time that the webpage responds.<Cite
+		linker={citationLinker}
+		name="is-my-connection-good"
+	/> 100ms is the longest that a computer can take to respond where the user perceives the response to
+	be instantaneous.<Cite linker={citationLinker} name="nielsen" />
+</div>
+
+<Anchor name="disclaimer"><h3 class="mt-6">Disclaimer</h3></Anchor>
+
+<div class="mt-6">
+	This map is intended only as an approximate reference. The information on the map including, but
+	not limited to, the ping latencies between specific cities, the locations of cities, and the
+	locations of national borders may differ from the real world.
+</div>
+
+<Anchor name="credits"><h3 class="mt-6">Credits</h3></Anchor>
+
+<div class="mt-6">
+	The map data for this project is used under license from Wikimedia.
+	<Link href="https://commons.wikimedia.org/wiki/File:Mercator_Projection.svg">Source</Link>
+</div>
+<div class="mt-6">
+	The ping data for this project is used under license from WonderNetwork.
+	<Link href="https://wonderproxy.com/blog/a-day-in-the-life-of-the-internet/">Source</Link>
+</div>
+
+<Anchor name="source-code"><h3 class="mt-6">Source Code</h3></Anchor>
+
+<div class="mt-6">
+	The source code for this project is <Link href="https://github.com/aaronstanek/ping-latency-map"
+		>available on GitHub</Link
+	>.
+</div>
