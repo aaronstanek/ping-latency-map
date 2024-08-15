@@ -2,28 +2,48 @@
 	import Anchor from '$lib/links/anchor.svelte';
 	import Link from '$lib/links/link.svelte';
 
-	import { CitationLinker } from '$lib/citations/citation-linker';
 	import Cite from '$lib/citations/cite.svelte';
+	import Bibliography from '$lib/citations/bibliography.svelte';
+	import { compileCitations } from '$lib/citations/compile';
 
-	const citationLinker = new CitationLinker()
-		.add('wondernetwork-pings', 'https://wondernetwork.com/pings')
-		.add(
-			'1-to-3-seconds',
-			'https://www.thinkwithgoogle.com/marketing-strategies/app-and-mobile/page-load-time-statistics/'
-		)
-		.add(
-			'abandon-at-3-seconds',
-			'https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/'
-		)
-		.add(
-			'ultimate-infographic',
-			'https://blog.google/products/adsense/the-ultimate-mobile-page-speed-infographic/'
-		)
-		.add(
-			'is-my-connection-good',
-			'https://www.pingplotter.com/wisdom/article/is-my-connection-good/'
-		)
-		.add('nielsen', 'https://www.nngroup.com/articles/response-times-3-important-limits/');
+	const cite = compileCitations({
+		wondernetworkPings: {
+			title: 'Global Ping Statistics',
+			accessed: '30 Apr 2024',
+			author: 'WonderNetwork',
+			url: 'https://wondernetwork.com/pings'
+		},
+		'1to3Seconds': {
+			title: 'Page load time statistics',
+			accessed: '14 Aug 2024',
+			author: 'Google',
+			url: 'https://www.thinkwithgoogle.com/marketing-strategies/app-and-mobile/page-load-time-statistics/'
+		},
+		abandonAt3Seconds: {
+			title: 'Mobile site load time statistics',
+			accessed: '14 Aug 2024',
+			author: 'Google',
+			url: 'https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/'
+		},
+		ultimateInfographic: {
+			title: 'The ultimate mobile page speed infographic',
+			accessed: '14 Aug 2024',
+			author: 'Google',
+			url: 'https://blog.google/products/adsense/the-ultimate-mobile-page-speed-infographic/'
+		},
+		isMyConnectionGood: {
+			title: 'What Are Good Latency & Ping Speeds?',
+			accessed: '14 Aug 2024',
+			author: 'Pingman Tools',
+			url: 'https://www.pingplotter.com/wisdom/article/is-my-connection-good/'
+		},
+		nielsen: {
+			title: 'Response Times: The 3 Important Limits',
+			accessed: '14 Aug 2024',
+			author: 'Nielsen, Jakob',
+			url: 'https://www.nngroup.com/articles/response-times-3-important-limits/'
+		}
+	});
 </script>
 
 <Anchor name="contents"><h3 class="mt-6">Table of Contents</h3></Anchor>
@@ -35,7 +55,8 @@
 	4. <Link href="#impact">The Impact of Latency on User Experience</Link><br />
 	5. <Link href="#disclaimer">Disclaimer</Link><br />
 	6. <Link href="#credits">Credits</Link><br />
-	7. <Link href="#source-code">Source Code</Link>
+	7. <Link href="#source-code">Source Code</Link><br />
+	8. <Link href="#bibliography">Bibliography</Link>
 </div>
 
 <Anchor name="understanding"><h3 class="mt-6">Understanding Ping Latency</h3></Anchor>
@@ -51,7 +72,7 @@
 	between two computers in the same metro area takes about 1ms. A ping between two computers in the
 	same part of a continent typically takes about 20ms; for example, between New York and Chicago, or
 	between London and Berlin. A ping between computers on opposite sides of the planet takes about
-	300ms.<Cite linker={citationLinker} name="wondernetwork-pings" />
+	300ms.<Cite index={cite.index.wondernetworkPings} />
 </div>
 
 <Anchor name="impact"><h3 class="mt-6 mb-6">The Impact of Latency on User Experience</h3></Anchor>
@@ -60,10 +81,9 @@
 	High ping latency translates to slow-loading websites and sluggish responses. This directly
 	affects user satisfaction. Even slight increases in ping latency can significantly hurt website
 	performance. The probability of a bounce increases 32% as page load time goes from 1 second to 3
-	seconds.<Cite linker={citationLinker} name="1-to-3-seconds" /> 53% of visits are abandoned if a mobile
-	site takes longer than 3 seconds to load.<Cite
-		linker={citationLinker}
-		name="abandon-at-3-seconds,ultimate-infographic"
+	seconds.<Cite index={cite.index['1to3Seconds']} /> 53% of visits are abandoned if a mobile site takes
+	longer than 3 seconds to load.<Cite
+		index={[cite.index.abandonAt3Seconds, cite.index.ultimateInfographic]}
 	/>
 </div>
 
@@ -73,10 +93,9 @@
 	benchmark. Taking this 50ms and adding another 50ms for the user's device to route through the
 	local ISP and for the webserver to process the request gives a 100ms delay overall between the
 	time a user clicks a button, and the time that the webpage responds.<Cite
-		linker={citationLinker}
-		name="is-my-connection-good"
+		index={cite.index.isMyConnectionGood}
 	/> 100ms is the longest that a computer can take to respond where the user perceives the response to
-	be instantaneous.<Cite linker={citationLinker} name="nielsen" />
+	be instantaneous.<Cite index={cite.index.nielsen} />
 </div>
 
 <Anchor name="disclaimer"><h3 class="mt-6">Disclaimer</h3></Anchor>
@@ -105,3 +124,7 @@
 		>available on GitHub</Link
 	>.
 </div>
+
+<Anchor name="bibliography"><h3 class="mt-6 mb-6">Bibliography</h3></Anchor>
+
+<Bibliography ordered={cite.ordered} />
