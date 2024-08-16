@@ -72,7 +72,7 @@
 	between two computers in the same metro area takes about 1ms. A ping between two computers in the
 	same part of a continent typically takes about 20ms; for example, between New York and Chicago, or
 	between London and Berlin. A ping between computers on opposite sides of the planet takes about
-	300ms.<Cite index={cite.index.wondernetworkPings} />
+	300ms.<Cite ref={cite.get.wondernetworkPings} />
 </div>
 
 <Anchor name="impact"><h3 class="mt-6 mb-6">The Impact of Latency on User Experience</h3></Anchor>
@@ -81,10 +81,8 @@
 	High ping latency translates to slow-loading websites and sluggish responses. This directly
 	affects user satisfaction. Even slight increases in ping latency can significantly hurt website
 	performance. The probability of a bounce increases 32% as page load time goes from 1 second to 3
-	seconds.<Cite index={cite.index['1to3Seconds']} /> 53% of visits are abandoned if a mobile site takes
-	longer than 3 seconds to load.<Cite
-		index={[cite.index.abandonAt3Seconds, cite.index.ultimateInfographic]}
-	/>
+	seconds.<Cite ref={cite.get['1to3Seconds']} /> 53% of visits are abandoned if a mobile site takes longer
+	than 3 seconds to load.<Cite ref={[cite.get.abandonAt3Seconds, cite.get.ultimateInfographic]} />
 </div>
 
 <div class="mt-6">
@@ -93,9 +91,9 @@
 	benchmark. Taking this 50ms and adding another 50ms for the user's device to route through the
 	local ISP and for the webserver to process the request gives a 100ms delay overall between the
 	time a user clicks a button, and the time that the webpage responds.<Cite
-		index={cite.index.isMyConnectionGood}
+		ref={cite.get.isMyConnectionGood}
 	/> 100ms is the longest that a computer can take to respond where the user perceives the response to
-	be instantaneous.<Cite index={cite.index.nielsen} />
+	be instantaneous.<Cite ref={cite.get.nielsen} />
 </div>
 
 <Anchor name="disclaimer"><h3 class="mt-6">Disclaimer</h3></Anchor>
@@ -127,4 +125,4 @@
 
 <Anchor name="bibliography"><h3 class="mt-6 mb-6">Bibliography</h3></Anchor>
 
-<Bibliography ordered={cite.ordered} />
+<Bibliography highlightPipe={cite.highlightPipe} ordered={cite.ordered} />
