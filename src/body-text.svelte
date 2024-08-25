@@ -7,6 +7,18 @@
 	import { compileCitations } from '$lib/citations/compile';
 
 	const cite = compileCitations({
+		baseMap: {
+			title: 'Mercator Projection.svg',
+			accessed: '30 Apr 2024',
+			author: 'Bosanko, Geordie',
+			url: 'https://commons.wikimedia.org/wiki/File:Mercator_Projection.svg'
+		},
+		aDayInTheLifeOfTheInternet: {
+			title: 'A day in the life of the Internet',
+			accessed: '30 Apr 2024',
+			author: 'Reinheimer, Paul',
+			url: 'https://wonderproxy.com/blog/a-day-in-the-life-of-the-internet/'
+		},
 		wondernetworkPings: {
 			title: 'Global Ping Statistics',
 			accessed: '30 Apr 2024',
@@ -107,12 +119,11 @@
 <Anchor name="credits"><h3 class="mt-6">Credits</h3></Anchor>
 
 <div class="mt-6">
-	The map data for this project is used under license from Wikimedia.
-	<Link href="https://commons.wikimedia.org/wiki/File:Mercator_Projection.svg">Source</Link>
+	The map data<Cite ref={cite.get.baseMap} /> for this project is used under license from Wikimedia.
 </div>
 <div class="mt-6">
-	The ping data for this project is used under license from WonderNetwork.
-	<Link href="https://wonderproxy.com/blog/a-day-in-the-life-of-the-internet/">Source</Link>
+	The ping data<Cite ref={cite.get.aDayInTheLifeOfTheInternet} /> for this project is used under license
+	from WonderNetwork.
 </div>
 
 <Anchor name="source-code"><h3 class="mt-6">Source Code</h3></Anchor>
