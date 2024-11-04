@@ -5,6 +5,7 @@
 	import Cite from '$lib/citations/cite.svelte';
 	import Bibliography from '$lib/citations/bibliography.svelte';
 	import { compileCitations } from '$lib/citations/compile';
+	import Hidden from '$lib/hidden.svelte';
 
 	const cite = compileCitations({
 		baseMap: {
@@ -57,6 +58,8 @@
 		}
 	});
 </script>
+
+<Hidden><h2>About this App</h2></Hidden>
 
 <Anchor name="contents"><h3 class="mt-6">Table of Contents</h3></Anchor>
 

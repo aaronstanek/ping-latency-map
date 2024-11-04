@@ -13,6 +13,7 @@
 	import Anchor from '$lib/links/anchor.svelte';
 	import { scrollToId } from '$lib/links/scroll-to-id';
 	import Link from '$lib/links/link.svelte';
+	import Hidden from '$lib/hidden.svelte';
 
 	let baseImage: HTMLImageElement | 'error' | undefined;
 	let pingData: PingData | 'error' | undefined;
@@ -144,6 +145,8 @@
 />
 
 <h1 class="text-center">Ping Latency Map</h1>
+
+<Hidden><h2>The App</h2></Hidden>
 
 <div class="flex justify-center mt-3"><Link href="#contents">Jump to Table of Contents</Link></div>
 
