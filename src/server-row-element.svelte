@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type { ServerListElement } from './asset-loaders';
 
-	export let server: ServerListElement | undefined;
-	export let removeThisServer: () => void;
+	interface Props {
+		server: ServerListElement | undefined;
+		removeThisServer: () => void;
+	}
+
+	let { server, removeThisServer }: Props = $props();
 </script>
 
 <div class="flex flex-row">
@@ -10,7 +14,7 @@
 		<button
 			aria-label={`Remove Source City: ${server?.city}, ${server?.country}`}
 			class="highlightonhover"
-			on:click={removeThisServer}
+			onclick={removeThisServer}
 			><div style="padding: 4px">
 				<img
 					src="https://aaronstanek.com/static-web-content/x.svg"

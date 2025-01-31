@@ -4,23 +4,28 @@
 	import type { ServerListElement } from './asset-loaders';
 	import { findResults } from './search';
 
-	export let serverFilter: (x: number) => boolean;
-	export let selectCallback: (x: number) => void;
-	export let serverList: ServerListElement[] | 'error' | undefined;
+	interface Props {
+		serverFilter: (x: number) => boolean;
+		selectCallback: (x: number) => void;
+		serverList: ServerListElement[] | 'error' | undefined;
+	}
 
-	let boxContent = '';
+	let { serverFilter, selectCallback, serverList }: Props = $props();
 
-	$: suggestions =
+	let boxContent = $state('');
+
+	let suggestions = $derived(
 		serverList === undefined || serverList === 'error' || boxContent.length === 0
 			? []
-			: findResults(boxContent, serverList).filter(serverFilter).slice(0, 5);
+			: findResults(boxContent, serverList).filter(serverFilter).slice(0, 5)
+	);
 
 	const handleClickOutside = () => {
 		boxContent = '';
 	};
 
-	let inputBox: HTMLInputElement | undefined;
-	let suggestionsBox: HTMLDivElement | undefined;
+	let inputBox: HTMLInputElement | undefined = $state();
+	let suggestionsBox: HTMLDivElement | undefined = $state();
 	let keypressHandler: ((event: KeyboardEvent) => void) | undefined;
 
 	onMount(() => {
@@ -89,7 +94,7 @@
 				<button
 					aria-label="Accept new source city suggestion"
 					class="highlightonhover"
-					on:click={() => {
+					onclick={() => {
 						handleClickOutside();
 						selectCallback(suggestion);
 					}}

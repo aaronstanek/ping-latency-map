@@ -12,7 +12,7 @@ const sortServersCompare = (a: ServerPointer, b: ServerPointer) => {
 };
 
 export const sortServers = (serverList: ServerListElement[]) => {
-	let serverPointers = [];
+	const serverPointers = [];
 	for (let id = 0; id < serverList.length; id++) {
 		serverPointers.push({
 			id,

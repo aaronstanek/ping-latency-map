@@ -17,8 +17,8 @@
 
 	let baseImage: HTMLImageElement | 'error' | undefined;
 	let pingData: PingData | 'error' | undefined;
-	let serverList: ServerListElement[] | 'error' | undefined;
-	let assetLoadState: 'loading' | 'done' | 'error' = 'loading';
+	let serverList: ServerListElement[] | 'error' | undefined = $state();
+	let assetLoadState: 'loading' | 'done' | 'error' = $state('loading');
 
 	if (browser) {
 		const countAssets = () => {
@@ -42,8 +42,8 @@
 		})();
 	}
 
-	let thresholdMs: number = 50;
-	let sourceServers: number[] = [];
+	let thresholdMs: number = $state(50);
+	let sourceServers: number[] = $state([]);
 	const sourceServersFilter = (x: number) => !sourceServers.includes(x);
 	const addSourceServer = (x: number) => {
 		if (!sourceServers.includes(x)) {
@@ -57,7 +57,7 @@
 		draw();
 	};
 
-	let canvas: HTMLCanvasElement | undefined;
+	let canvas: HTMLCanvasElement | undefined = $state();
 
 	const getPingTime = (pingData: (number | null)[][], a: number, b: number) => {
 		if (a === b) return 0;
@@ -134,7 +134,7 @@
 		draw();
 	});
 
-	let areAvailableCitiesShown = false;
+	let areAvailableCitiesShown = $state(false);
 </script>
 
 <Head
@@ -171,7 +171,7 @@
 			aria-label="Set the ping latency threshold"
 			type="number"
 			bind:value={thresholdMs}
-			on:input={draw}
+			oninput={draw}
 		/>
 	</div>
 	<br />
