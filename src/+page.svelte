@@ -14,6 +14,9 @@
 	import { scrollToId } from '$lib/links/scroll-to-id';
 	import Link from '$lib/links/link.svelte';
 	import Hidden from '$lib/hidden.svelte';
+	import Card from '$lib/card.svelte';
+	import InputField from '$lib/input/input-field.svelte';
+	import { parseNonnegativeInteger } from '$lib/input/input-field-parser';
 
 	let baseImage: HTMLImageElement | 'error' | undefined;
 	let pingData: PingData | 'error' | undefined;
@@ -42,7 +45,8 @@
 		})();
 	}
 
-	let thresholdMs: number = $state(50);
+	const thresholdMsInitialValue = 50;
+	let thresholdMs: number = $state(thresholdMsInitialValue);
 	let sourceServers: number[] = $state([]);
 	const sourceServersFilter = (x: number) => !sourceServers.includes(x);
 	const addSourceServer = (x: number) => {
@@ -166,12 +170,14 @@
 	<br />
 	<div class="flex flex-col items-center gap-2">
 		<div>Ping latency threshold (in milliseconds)</div>
-		<input
-			style="width:75px"
-			aria-label="Set the ping latency threshold"
-			type="number"
-			bind:value={thresholdMs}
-			oninput={draw}
+		<InputField
+			ariaLabel="Set the ping latency threshold"
+			width={75}
+			parser={parseNonnegativeInteger((n: number) => {
+				thresholdMs = n;
+				draw();
+			})}
+			initialValue={thresholdMsInitialValue.toString()}
 		/>
 	</div>
 	<br />
@@ -185,14 +191,18 @@
 	</div>
 	<br />
 	<div class="pb-0.5">Source cities</div>
-	<div class="flex flex-col serverlist">
-		{#each sourceServers as source}
-			<ServerRowElement
-				server={serverList === undefined || serverList === 'error' ? undefined : serverList[source]}
-				removeThisServer={() => removeSourceServer(source)}
-			/>
-		{/each}
-	</div>
+	<Card>
+		<div class="flex flex-col serverlist">
+			{#each sourceServers as source}
+				<ServerRowElement
+					server={serverList === undefined || serverList === 'error'
+						? undefined
+						: serverList[source]}
+					removeThisServer={() => removeSourceServer(source)}
+				/>
+			{/each}
+		</div>
+	</Card>
 {/if}
 
 <br />
@@ -236,7 +246,7 @@
 	}
 	.serverlist {
 		border-width: 1px;
-		border-color: var(--somewhat-white);
+		border-color: var(--card-color);
 		border-radius: 5px;
 		padding: 5px;
 	}

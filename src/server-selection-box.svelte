@@ -3,6 +3,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import type { ServerListElement } from './asset-loaders';
 	import { findResults } from './search';
+	import InputField from '$lib/input/input-field.svelte';
 
 	interface Props {
 		serverFilter: (x: number) => boolean;
@@ -21,10 +22,10 @@
 	);
 
 	const handleClickOutside = () => {
-		boxContent = '';
+		inputBox?.writeValue('');
 	};
 
-	let inputBox: HTMLInputElement | undefined = $state();
+	let inputBox: InputField | undefined = $state();
 	let suggestionsBox: HTMLDivElement | undefined = $state();
 	let keypressHandler: ((event: KeyboardEvent) => void) | undefined;
 
@@ -38,8 +39,8 @@
 				(x) => x instanceof HTMLElement
 			) as HTMLElement[];
 			if (suggestionNodes.length === 0) return;
-			const activeNode = document.activeElement ?? inputBox;
-			if (activeNode.contains(inputBox)) {
+			const activeNode = document.activeElement ?? inputBox.rawHtmlElement();
+			if (activeNode.contains(inputBox.rawHtmlElement())) {
 				event.preventDefault();
 				if (direction === 'down') {
 					suggestionNodes[0].focus();
@@ -53,13 +54,13 @@
 					event.preventDefault();
 					if (direction === 'down') {
 						if (suggestionIndex === suggestionNodes.length - 1) {
-							inputBox.focus();
+							inputBox.rawHtmlElement().focus();
 						} else {
 							suggestionNodes[suggestionIndex + 1].focus();
 						}
 					} else {
 						if (suggestionIndex === 0) {
-							inputBox.focus();
+							inputBox.rawHtmlElement().focus();
 						} else {
 							suggestionNodes[suggestionIndex - 1].focus();
 						}
@@ -78,12 +79,13 @@
 
 <ClickOutside callback={handleClickOutside}>
 	<div style="position:relative">
-		<input
-			style="width: 290px"
-			aria-label="Search for a city to add as a source city."
+		<InputField
 			bind:this={inputBox}
-			type="text"
-			bind:value={boxContent}
+			ariaLabel="Search for a city to add as a source city."
+			width={290}
+			parser={(s) => {
+				boxContent = s;
+			}}
 		/>
 		<div
 			bind:this={suggestionsBox}
@@ -111,9 +113,9 @@
 <style>
 	.floaty {
 		position: absolute;
-		background-color: var(--somewhat-black);
+		background-color: var(--background-color);
 		border-width: 2px;
-		border-color: var(--somewhat-white);
+		border-color: var(--card-color);
 		border-radius: 5px;
 		margin-top: 10px;
 		padding: 5px;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Anchor from '$lib/links/anchor.svelte';
 	import Link from '$lib/links/link.svelte';
 
